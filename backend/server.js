@@ -218,6 +218,11 @@ app.post('/api/create-stripe-session', async (req, res) => {
   }
 });
 
+// Health Check Endpoint for Render / hosting environments
+app.get('/api/health', (req, res) => {
+  res.json({ status: 'ok' });
+});
+
 // Route catch-all mapping to 404
 app.use((req, res) => {
   res.status(404).json({ error: 'Endpoint not found in Jaipur Rashi Gems secure api gateway.' });
