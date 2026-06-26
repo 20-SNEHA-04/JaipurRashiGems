@@ -1,0 +1,659 @@
+/* JaipurRashiGems - Luxury Glassmorphism & Gold Components */
+
+/* Sticky Header */
+header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(13, 13, 17, 0.85);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(212, 175, 55, 0.15);
+  padding: 0 5%;
+}
+
+.logo {
+  padding: 15px 0;
+}
+
+.header-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo h1 {
+  font-size: 1.8rem;
+  background: var(--gold-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin: 0;
+  cursor: pointer;
+}
+
+/* Nav Links */
+nav ul {
+  display: flex;
+  list-style: none;
+  gap: 30px;
+}
+
+nav ul li {
+  display: flex;
+  align-items: center;
+}
+
+nav > ul > li > a {
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 0.9rem;
+  letter-spacing: 0.5px;
+  color: var(--text-primary);
+  padding: 22px 0; /* Creates continuous hover area stretching only for top-level header base */
+  display: inline-block;
+  transition: var(--transition-smooth);
+}
+
+nav > ul > li > a:hover {
+  color: var(--gold-metallic);
+}
+
+/* Search bar & Icons */
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.search-container {
+  position: relative;
+  width: 250px;
+}
+
+.search-container input {
+  width: 100%;
+  padding: 8px 16px;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text-primary);
+  outline: none;
+  font-size: 0.85rem;
+  transition: var(--transition-smooth);
+}
+
+.search-container input:focus {
+  border-color: var(--gold-metallic);
+  box-shadow: 0 0 10px var(--gold-glow);
+}
+
+#search-dropdown {
+  position: absolute;
+  top: 45px;
+  right: 0;
+  width: 320px;
+  background: var(--bg-slate);
+  border: 1px solid rgba(212, 175, 55, 0.2);
+  border-radius: 8px;
+  box-shadow: var(--shadow-luxury);
+  display: none;
+  z-index: 1000;
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.search-item {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  cursor: pointer;
+  transition: var(--transition-smooth);
+}
+
+.search-item:hover {
+  background: rgba(212, 175, 55, 0.08);
+}
+
+.search-item-thumb {
+  width: 40px;
+  height: 40px;
+  border-radius: 5px;
+}
+
+.search-item .details strong {
+  display: block;
+  font-size: 0.85rem;
+  color: var(--text-primary);
+}
+
+.search-item .details .sub {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+/* Action button badges */
+.action-badge-btn {
+  background: none;
+  border: none;
+  color: var(--text-primary);
+  font-size: 1.2rem;
+  cursor: pointer;
+  position: relative;
+}
+
+.badge-count {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  background: var(--gold-gradient);
+  color: #0D0D11;
+  font-size: 0.65rem;
+  font-weight: 700;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Premium Buttons */
+.gold-btn {
+  font-family: var(--font-body);
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  padding: 12px 28px;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: var(--transition-smooth);
+  text-transform: uppercase;
+  font-size: 0.8rem;
+  border: none;
+}
+
+.btn-primary {
+  background: var(--gold-gradient);
+  background-size: 200% 200%;
+  animation: goldShimmer 5s ease infinite;
+  color: #0D0D11;
+  box-shadow: 0 4px 15px var(--gold-glow);
+}
+
+.btn-primary:hover {
+  background: var(--gold-gradient-hover);
+  transform: translateY(-2px);
+}
+
+.btn-secondary {
+  background: transparent;
+  color: var(--gold-metallic);
+  border: 1px solid var(--gold-metallic);
+}
+
+.btn-secondary:hover {
+  background: rgba(212, 175, 55, 0.08);
+  color: var(--gold-champagne);
+  border-color: var(--gold-champagne);
+  transform: translateY(-2px);
+}
+
+.btn-block {
+  width: 100%;
+}
+
+/* Luxury Product Cards */
+.products-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 30px;
+}
+
+.luxury-product-card {
+  background: var(--bg-charcoal);
+  border: 1px solid rgba(255, 255, 255, 0.03);
+  border-radius: 12px;
+  overflow: hidden;
+  position: relative;
+  transition: var(--transition-smooth);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.25);
+}
+
+.luxury-product-card:hover {
+  transform: translateY(-6px);
+  border-color: rgba(212, 175, 55, 0.3);
+  box-shadow: 0 8px 30px rgba(212, 175, 55, 0.08);
+}
+
+.card-header-actions {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  z-index: 5;
+}
+
+.action-circle-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(13, 13, 17, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: var(--transition-smooth);
+}
+
+.action-circle-btn:hover, .action-circle-btn.active {
+  background: var(--gold-gradient);
+  color: #0D0D11;
+  border-color: var(--gold-metallic);
+}
+
+.product-visual-wrapper {
+  height: 240px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(circle, rgba(29,29,40,0.5) 0%, rgba(13,13,17,1) 100%);
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.product-info {
+  padding: 20px;
+}
+
+.stone-origin {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.product-info h3 {
+  font-size: 1.15rem;
+  margin: 8px 0 12px;
+  cursor: pointer;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.astro-tag {
+  background: rgba(212, 175, 55, 0.08);
+  border: 1px solid rgba(212, 175, 55, 0.15);
+  padding: 4px 10px;
+  border-radius: 4px;
+  display: inline-block;
+  font-size: 0.75rem;
+  color: var(--gold-champagne);
+  margin-bottom: 15px;
+}
+
+.pricing-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.pricing-row .price {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.btn-card-buy {
+  padding: 6px 12px;
+  font-size: 0.65rem;
+}
+
+/* Simulated Graphic Icons for Gems - Replaced with high resolution photorealistic assets */
+.blue-sapphire { 
+  background: url('../blue_sapphire_cut.png') center/contain no-repeat !important; 
+  box-shadow: none !important; 
+  border-radius: 0 !important; 
+}
+.yellow-sapphire { 
+  background: url('../yellow_sapphire_cut.png') center/contain no-repeat !important; 
+  box-shadow: none !important; 
+  border-radius: 0 !important; 
+}
+.emerald { 
+  background: url('../emerald_cut.png') center/contain no-repeat !important; 
+  box-shadow: none !important; 
+  border-radius: 0 !important; 
+}
+.ruby { 
+  background: url('../ruby_cut.png') center/contain no-repeat !important; 
+  box-shadow: none !important; 
+  border-radius: 0 !important; 
+}
+.amethyst { background: radial-gradient(circle, #a855f7 0%, #6b21a8 70%); }
+.red-coral { background: radial-gradient(circle, #f97316 0%, #c2410c 70%); }
+.opal { background: radial-gradient(circle, #e2e8f0 0%, #94a3b8 70%); box-shadow: inset 0 0 15px rgba(239, 68, 68, 0.4); }
+.jewelry-ring { background: radial-gradient(circle, #fcd34d 30%, #b45309 80%); border-radius: 50%; border: 4px double #ffffff; }
+.jewelry-pendant { background: radial-gradient(circle, #fcd34d 0%, #d97706 60%); border-radius: 10px; }
+
+.gemstone-glimmer-avatar {
+  width: 110px;
+  height: 110px;
+  border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+  transform: rotate(-15deg);
+  box-shadow: 0 0 25px rgba(255,255,255,0.15);
+  transition: var(--transition-smooth);
+}
+
+.luxury-product-card:hover .gemstone-glimmer-avatar {
+  transform: scale(1.15) rotate(5deg);
+  box-shadow: 0 0 35px var(--gold-glow);
+}
+
+/* Modals & Drawers */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0,0,0,0.8);
+  backdrop-filter: blur(8px);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: var(--transition-smooth);
+}
+
+.modal-overlay.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.modal-dialog {
+  width: 90%;
+  max-width: 500px;
+  animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.modal-content {
+  background: var(--bg-charcoal);
+  border: 1px solid rgba(212, 175, 55, 0.2);
+  border-radius: 12px;
+  padding: 30px;
+  box-shadow: var(--shadow-luxury);
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.close-modal {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-size: 1.8rem;
+  cursor: pointer;
+}
+
+/* Slide Drawer (Cart) */
+.slide-drawer {
+  position: fixed;
+  top: 0;
+  right: -400px;
+  width: 380px;
+  height: 100vh;
+  background: var(--bg-slate);
+  border-left: 1px solid rgba(212, 175, 55, 0.15);
+  box-shadow: var(--shadow-luxury);
+  z-index: 500;
+  transition: var(--transition-smooth);
+  padding: 30px 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.slide-drawer.active {
+  right: 0;
+}
+
+.drawer-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+/* Compare Drawer bottom bar */
+#compare-drawer {
+  position: fixed;
+  bottom: -150px;
+  left: 0;
+  width: 100%;
+  background: var(--bg-slate);
+  border-top: 2px solid var(--gold-metallic);
+  box-shadow: var(--shadow-luxury);
+  z-index: 400;
+  transition: var(--transition-smooth);
+  padding: 15px 5%;
+}
+
+#compare-drawer.active {
+  bottom: 0;
+}
+
+.compare-inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.compare-items-row {
+  display: flex;
+  gap: 20px;
+}
+
+.compare-item-card {
+  background: var(--bg-obsidian);
+  padding: 6px 12px;
+  border-radius: 6px;
+  border: 1px solid rgba(255,255,255,0.05);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.8rem;
+}
+
+.compare-stone-thumb {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+}
+
+.remove-btn {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  cursor: pointer;
+}
+.remove-btn:hover {
+  color: #ef4444;
+}
+.compare-actions {
+  display: flex;
+  gap: 15px;
+}
+
+/* Forms */
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin-bottom: 8px;
+  text-transform: uppercase;
+}
+
+.form-group input, .form-group select, .form-group textarea {
+  width: 100%;
+  padding: 12px 16px;
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: var(--bg-slate);
+  color: var(--text-primary);
+  outline: none;
+  font-family: var(--font-body);
+}
+
+.form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+  border-color: var(--gold-metallic);
+}
+
+.form-row {
+  display: flex;
+  gap: 15px;
+}
+
+.form-row .col {
+  flex: 1;
+}
+
+/* Mega Menu Dropdown Styles */
+.has-mega-menu {
+  position: static; /* Allows mega menu to stretch full width of header container */
+}
+
+.mega-menu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 5%;
+  width: 90%;
+  background: #ffffff; /* Clean light background matching GemPundit reference image */
+  border-top: 3px solid #e05e3a; /* Coral orange highlight line on top */
+  box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+  padding: 30px;
+  z-index: 999;
+  justify-content: space-between;
+  border-radius: 0 0 8px 8px;
+  animation: fadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.has-mega-menu:hover .mega-menu {
+  display: flex;
+}
+
+.mega-column {
+  flex: 1;
+  padding: 0 20px;
+  border-right: 1px solid #eef2f5;
+}
+
+.mega-column:last-child {
+  border-right: none;
+}
+
+.mega-column h4 {
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #1a2530; /* Dark slate matching layout image */
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 20px;
+  border-bottom: 2px solid #eef2f5;
+  padding-bottom: 10px;
+}
+
+.mega-column ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 0;
+}
+
+.mega-column ul li a {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-body);
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: #4a5568 !important; /* Neutral grey-black content links */
+  text-decoration: none;
+  transition: var(--transition-smooth);
+}
+
+.mega-column ul li a:hover {
+  color: #e05e3a !important; /* Coral orange highlight color on hover */
+  transform: translateX(4px);
+}
+
+/* Little Gemstone dots next to links */
+.gem-dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  display: inline-block;
+  flex-shrink: 0;
+  border: 1px solid rgba(0,0,0,0.1);
+}
+
+/* Caret indicator beside Gemstones link */
+.nav-caret {
+  font-size: 0.75rem;
+  margin-left: 4px;
+}
+
+.view-all-link {
+  color: #e05e3a !important;
+  font-weight: 700 !important;
+}
+
+/* Ring Dot Vector icons for Engagement Rings mega menu */
+.ring-dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 1.5px solid #cbd5e0; /* Platinum/Silver ring band */
+  display: inline-block;
+  position: relative;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.ring-dot::after {
+  content: "";
+  position: absolute;
+  top: -4px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  border: 0.5px solid rgba(0,0,0,0.15);
+}
+
+.blue-sapphire-ring::after { background: #3b82f6; }
+.emerald-ring::after { background: #10b981; }
+.tanzanite-ring::after { background: #8b5cf6; }
+.yellow-sapphire-ring::after { background: #fbbf24; }
+
+/* Force hide class to prevent mega menu from blocking the screen after link clicks */
+.mega-menu.force-hide {
+  display: none !important;
+}

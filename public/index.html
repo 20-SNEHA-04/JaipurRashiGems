@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jaipur Rashi Gems | Certified Luxury Gemstones & Astrology Recommendations</title>
+    <!-- Premium Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,400&family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400&family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Elite 3D WebGL / Canvas Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <!-- Main Style Sheet -->
+    <link rel="stylesheet" href="styles.css">
+    <!-- Dynamic SEO Injection Anchor -->
+    <meta name="description" content="Buy certified natural gemstones online at Jaipur Rashi Gems. Shop premium rubies, sapphires, emeralds, customized jewelry, & access free Vedic astrology recommendations.">
+    <meta name="keywords" content="gemstones, precious stones, rubies, sapphires, emeralds, zodiac stones, birthstones, astrological gemstones, certified gems">
+    <link rel="canonical" href="https://jaipurrashigems.com/">
+    
+    <!-- JSON-LD Dynamic Schema Container -->
+    <script type="application/ld+json" id="seo-schema"></script>
+</head>
+<body class="luxury-dark-theme">
+
+    <!-- Top Announcement & Settings Bar -->
+    <div class="top-announcement-bar">
+        <div class="announcement-text">
+            <span>📞 +91-11-4084-4599</span>
+            <span class="divider">|</span>
+            <span>💎 certified unheated gemstones</span>
+        </div>
+        <div class="top-settings">
+            <!-- Multi-Currency Selector -->
+            <div class="setting-item">
+                <select id="currency-select" aria-label="Select Currency">
+                    <option value="INR" selected>INR</option>
+                    <option value="USD">USD</option>
+                    <option value="GBP">GBP</option>
+                </select>
+            </div>
+            <!-- Multi-Language Selector -->
+            <div class="setting-item">
+                <select id="language-select" aria-label="Select Language">
+                    <option value="en" selected>ENGLISH</option>
+                    <option value="hi">HINDI</option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Navigation & Search Header -->
+    <header class="main-header">
+        <div class="header-core">
+            <!-- Brand Logo -->
+            <a href="#" class="brand-logo" onclick="window.router.navigate('home'); return false;">
+                <div class="logo-symbol">✨</div>
+                <div class="logo-text">
+                    <span class="brand-name">JAIPUR RASHI GEMS</span>
+                    <span class="brand-sub">Luxury Astrological Heritage</span>
+                </div>
+            </a>
+
+            <!-- AI-Powered Voice & Text Search Bar -->
+            <div class="search-container">
+                <form class="search-form" onsubmit="event.preventDefault(); window.router.handleSearch();">
+                    <input type="text" id="search-input" placeholder="Search gems by name, planet, rashi, color..." autocomplete="off">
+                    <button type="button" class="voice-search-btn" id="voice-search-btn" title="Voice Search">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"/><path d="M19 10v1a7 7 0 0 1-14 0v-1M12 18v4M8 22h8"/></svg>
+                    </button>
+                    <button type="submit" class="search-submit-btn">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                    </button>
+                </form>
+                <div class="search-suggestions" id="search-suggestions"></div>
+            </div>
+
+            <!-- Quick Action Icons (Text labels format matching GemPundit) -->
+            <div class="header-actions" style="display:flex; align-items:center; gap:20px; font-weight:700; font-size:11px; text-transform:uppercase; color:#e85a4f;">
+                <!-- Search Label -->
+                <a href="#" onclick="event.preventDefault(); document.getElementById('search-input').focus();" style="display:flex; align-items:center; gap:5px;">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+                    <span>SEARCH</span>
+                </a>
+                <!-- User Account -->
+                <a href="#" onclick="window.router.navigate('account'); return false;" style="display:flex; align-items:center; gap:5px;">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                    <span>ACCOUNT</span>
+                </a>
+                <!-- Wishlist -->
+                <a href="#" onclick="window.router.toggleWishlistTray(); return false;" style="display:flex; align-items:center; gap:5px; position:relative;">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+                    <span>WISHLIST</span>
+                    <span class="badge-count" id="wishlist-count" style="top:-8px; right:-12px; background:#8c0b1a;">0</span>
+                </a>
+                <!-- Shopping Cart -->
+                <a href="#" onclick="window.router.toggleCartTray(); return false;" style="display:flex; align-items:center; gap:5px; position:relative;">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+                    <span>MY BAG</span>
+                    <span class="badge-count" id="cart-count" style="top:-8px; right:-12px; background:#8c0b1a;">0</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- Mega Category Navigation Menu -->
+        <nav class="mega-nav">
+            <ul class="nav-links">
+                <!-- Gemstones Dropdown -->
+                <li class="nav-item has-dropdown">
+                    <a href="#" class="nav-link-item">GEMSTONES</a>
+                        <div class="mega-dropdown">
+                            <div class="mega-dropdown-grid" style="grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 20px;">
+                                <div class="mega-column">
+                                    <h4 class="mega-heading">Zodiac Stones (Rashi)</h4>
+                                    <ul>
+                                        <li><a href="#" onclick="window.router.navigate('collection', {gemstone: 'Blue Sapphire'}); return false;">Blue Sapphire (Neelam)</a></li>
+                                        <li><a href="#" onclick="window.router.navigate('collection', {gemstone: 'Cats Eye'}); return false;">Cat's Eye</a></li>
+                                        <li><a href="#" onclick="window.router.navigate('collection', {gemstone: 'Emerald'}); return false;">Emerald (Panna)</a></li>
+                                        <li><a href="#" onclick="window.router.navigate('collection', {gemstone: 'Hessonite'}); return false;">Hessonite (Gomed)</a></li>
+                                        <li><a href="#" onclick="window.router.navigate('collection', {gemstone: 'Pearl'}); return false;">Pearl (Moti)</a></li>
+                                        <li><a href="#" onclick="window.router.navigate('collection', {gemstone: 'Ruby'}); return false;">Ruby (Manik)</a></li>
+                                        <li><a href="#" onclick="window.router.navigate('collection', {gemstone: 'Red Coral'}); return false;">Red Coral (Moonga)</a></li>
+                                        <li><a href="#" onclick="window.router.navigate('collection', {gemstone: 'White Sapphire'}); return false;">White Sapphire</a></li>
+                                        <li><a href="#" onclick="window.router.navigate('collection', {gemstone: 'Yellow Sapphire'}); return false;">Yellow Sapphire</a></li>
+                                    </ul>
+                                </div>
+                                <div class="mega-column">
+                                    <h4 class="mega-heading">Popular Vedic Gems</h4>
+                                    <ul>
+                                        <li><a href="#" onclick="window.router.navigate('collection', {gemstone: 'Amethyst'}); return false;">Amethyst</a></li>
+                                        <li><a href="#" onclick="window.router.navigate('collection', {gemstone: 'Citrine'}); return false;">Citrine (Sunela)</a></li>
+                                        <li><a href="#" onclick="window.router.navigate('collection', {gemstone: 'Fire Opal'}); return false;">Fire Opal</a></li>
+                                        <li><a href="#" onclick="window.router.navigate('collection', {gemstone: 'Garnet'}); return false;">Garnet</a></li>
+                                        <li><a href="#" onclick="window.router.navigate('collection', {gemstone: 'Iolite'}); return false;">Iolite (Neeli)</a></li>
+                                        <li><a href="#" onclick="window.router.navigate('collection', {gemstone: 'Navratna'}); return false;">Navratna</a></li>
+                                        <li><a href="#" onclick="window.router.navigate('collection', {gemstone: 'Opal'}); return false;">Opal</a></li>
+                                        <li><a href="#" onclick="window.router.navigate('collection', {gemstone: 'Peridot'}); return false;">Peridot</a></li>
+                                        <li><a href="#" onclick="window.router.navigate('collection', {gemstone: 'Pitambari'}); return false;">Pitambari Neelam</a></li>
+                                        <li><a href="#" onclick="window.router.navigate('collection', {gemstone: 'Turquoise'}); return false;">Turquoise</a></li>
+                                        <li><a href="#" onclick="window.router.navigate('collection', {gemstone: 'White Coral'}); return false;">White Coral</a></li>
+                                        <li><a href="#" onclick="window.router.navigate('collection', {gemstone: 'Yellow Topaz'}); return false;">Yellow Topaz</a></li>
+                                        <li><a href="#" onclick="window.router.navigate('collection', {gemstone: 'Zircon'}); return false;">Zircon</a></li>
+                                    </ul>
+                                </div>
+                                <div class="mega-column">
+                                    <h4 class="mega-heading">Exclusive Gemstones</h4>
+                                    <ul>
+                                        <li><a href="#" onclick="window.router.navigate('collection', {gemstone: 'Alexandrite'}); return false;">Alexandrite</a></li>
+                                        <li><a href="#" onclick="window.router.navigate('collection', {gemstone: 'Ruby', filter: 'origin', val: 'Myanmar'}); return false;">Burmese Ruby</a></li>
+                                        <li><a href="#" onclick="window.router.navigate('collection', {gemstone: 'Emerald', filter: 'origin', val: 'Colombia'}); return false;">Colombian Emerald</a></li>
+                                        <li><a href="#" onclick="window.router.navigate('collection', {gemstone: 'Blue Sapphire'}); return false;">Cornflower Sapphire</a></li>
+                                        <li><a href="#" onclick="window.router.navigate('collection', {gemstone: 'Blue Sapphire', filter: 'origin', val: 'Kashmir'}); return false;">Kashmir Sapphire</a></li>
+                                        <li><a href="#" onclick="window.router.navigate('collection', {gemstone: 'Emerald'}); return false;">No Oil Emerald</a></li>
+                                        <li><a href="#" onclick="window.router.navigate('collection', {gemstone: 'Emerald'}); return false;">Panjshir Emerald</a></li>
+                                        <li><a href="#" onclick="window.router.navigate('collection', {gemstone: 'Padparadscha'}); return false;">Padparadscha Sapphire</a></li>
+                                        <li><a href="#" onclick="window.router.navigate('collection', {gemstone: 'Paraiba'}); return false;">Paraiba Tourmaline</a></li>
+                                        <li><a href="#" onclick="window.router.navigate('collection', {gemstone: 'Ruby'}); return false;">Pigeon Blood Ruby</a></li>
+                                        <li><a href="#" onclick="window.router.navigate('collection', {gemstone: 'Pink Sapphire'}); return false;">Pink Sapphire</a></li>
+                                        <li><a href="#" onclick="window.router.navigate('collection', {gemstone: 'Blue Sapphire'}); return false;">Royal Blue Sapphire</a></li>
+                                        <li><a href="#" onclick="window.router.navigate('collection', {gemstone: 'Tanzanite'}); return false;">Tanzanite</a></li>
+                                        <li><a href="#" onclick="window.router.navigate('collection', {gemstone: 'Emerald'}); return false;">Vivid Green Emerald</a></li>
+                                    </ul>
+                                </div>
+                                <div class="mega-column">
+                                    <h4 class="mega-heading">Other Gemstones</h4>
+                                    <ul>
+                                        <li><a href="#" onclick="window.router.navigate('collection', {gemstone: 'Amber'}); return false;">Amber</a></li>
+                                        <li><a href="#" onclick="window.router.navigate('collection', {gemstone: 'Ametrine'}); return false;">Ametrine</a></li>
+                                        <li><a href="#" onclick="window.router.navigate('collection', {gemstone: 'Aquamarine'}); return false;">Aquamarine</a></li>
+                                        <li><a href="#" onclick="window.router.navigate('collection', {gemstone: 'Blue Topaz'}); return false;">Blue Topaz</a></li>
+                                        <li><a href="#" onclick="window.router.navigate('collection', {gemstone: 'Kyanite'}); return false;">Kyanite</a></li>
+                                        <li><a href="#" onclick="window.router.navigate('collection', {gemstone: 'Lapis Lazuli'}); return false;">Lapis Lazuli</a></li>
+                                        <li><a href="#" onclick="window.router.navigate('collection', {gemstone: 'Moldavite'}); return false;">Moldavite</a></li>
+                                        <li><a href="#" onclick="window.router.navigate('collection', {gemstone: 'Moonstone'}); return false;">Moonstone</a></li>
+                                        <li><a href="#" onclick="window.router.navigate('collection', {gemstone: 'Star Ruby'}); return false;">Star Ruby</a></li>
+                                        <li><a href="#" onclick="window.router.navigate('collection', {gemstone: 'Tourmaline'}); return false;">Tourmaline</a></li>
+                                        <li><a href="#" onclick="window.router.navigate('collection', {gemstone: 'Spinel'}); return false;">Spinel</a></li>
+                                        <li><a href="#" onclick="window.router.navigate('collection', {gemstone: 'Blue Zircon'}); return false;">Blue Zircon</a></li>
+                                        <li><a href="#" onclick="window.router.navigate('collection'); return false;" style="font-weight:700; color:var(--gold-mid);">View All →</a></li>
+                                    </ul>
+                                </div>
+                                <div class="mega-column">
+                                    <h4 class="mega-heading">Special Collections</h4>
+                                    <ul>
+                                        <li><a href="#" onclick="window.router.navigate('collection'); return false;">Matched Pairs</a></li>
+                                        <li><a href="#" onclick="window.router.navigate('collection'); return false;">Gemstone Sets</a></li>
+                                        <li><a href="#" onclick="window.router.navigate('collection'); return false;">Parcel Lots</a></li>
+                                        <li><a href="#" onclick="window.router.navigate('collection'); return false;">Fancy Cuts</a></li>
+                                        <li><a href="#" onclick="window.router.navigate('collection'); return false;">Carved Gemstones</a></li>
+                                        <li><a href="#" onclick="window.router.navigate('collection'); return false;">Coral Ganesha</a></li>
+                                        <li><a href="#" onclick="window.router.navigate('collection', {filter: 'cert', val: 'GRS'}); return false;">GRS Certified Gems</a></li>
+                                        <li><a href="#" onclick="window.router.navigate('collection', {filter: 'cert', val: 'GIA'}); return false;">GIA Certified Gems</a></li>
+                                        <li><a href="#" onclick="window.router.navigate('collection', {filter: 'cert', val: 'Gubelin'}); return false;">Gubelin Certified Gems</a></li>
+                                        <li><a href="#" onclick="window.router.navigate('collection', {filter: 'cert', val: 'IGI'}); return false;">IGI Certified Gems</a></li>
+                                        <li><a href="#" onclick="window.router.navigate('collection'); return false;" style="font-weight:700; color:var(--gold-mid);">View All →</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                </li>
+
+                <!-- Zodiac / Rashi Stones -->
+                <li class="nav-item has-dropdown">
+                    <a href="#" class="nav-link-item">ZODIAC STONES</a>
+                    <div class="mega-dropdown">
+                        <div class="mega-dropdown-grid zodiac-grid">
+                            <div class="mega-column">
+                                <h4 class="mega-heading">Aries - Virgo</h4>
+                                <ul>
+                                    <li><a href="#" onclick="window.router.navigate('collection', {filter: 'zodiac', val: 'Aries'}); return false;">♈ Aries (Mesh) - Ruby</a></li>
+                                    <li><a href="#" onclick="window.router.navigate('collection', {filter: 'zodiac', val: 'Taurus'}); return false;">♉ Taurus (Vrishabha) - Opal</a></li>
+                                    <li><a href="#" onclick="window.router.navigate('collection', {filter: 'zodiac', val: 'Gemini'}); return false;">♊ Gemini (Mithun) - Emerald</a></li>
+                                    <li><a href="#" onclick="window.router.navigate('collection', {filter: 'zodiac', val: 'Cancer'}); return false;">♋ Cancer (Kark) - Pearl</a></li>
+                                    <li><a href="#" onclick="window.router.navigate('collection', {filter: 'zodiac', val: 'Leo'}); return false;">♌ Leo (Simha) - Ruby</a></li>
+                                    <li><a href="#" onclick="window.router.navigate('collection', {filter: 'zodiac', val: 'Virgo'}); return false;">♍ Virgo (Kanya) - Emerald</a></li>
+                                </ul>
+                            </div>
+                            <div class="mega-column">
+                                <h4 class="mega-heading">Libra - Pisces</h4>
+                                <ul>
+                                    <li><a href="#" onclick="window.router.navigate('collection', {filter: 'zodiac', val: 'Libra'}); return false;">♎ Libra (Tula) - Opal / Diamond</a></li>
+                                    <li><a href="#" onclick="window.router.navigate('collection', {filter: 'zodiac', val: 'Scorpio'}); return false;">♏ Scorpio (Vrishchik) - Coral</a></li>
+                                    <li><a href="#" onclick="window.router.navigate('collection', {filter: 'zodiac', val: 'Sagittarius'}); return false;">♐ Sagittarius (Dhanu) - Yellow Sapphire</a></li>
+                                    <li><a href="#" onclick="window.router.navigate('collection', {filter: 'zodiac', val: 'Capricorn'}); return false;">♑ Capricorn (Makar) - Blue Sapphire</a></li>
+                                    <li><a href="#" onclick="window.router.navigate('collection', {filter: 'zodiac', val: 'Aquarius'}); return false;">♒ Aquarius (Kumbh) - Blue Sapphire</a></li>
+                                    <li><a href="#" onclick="window.router.navigate('collection', {filter: 'zodiac', val: 'Pisces'}); return false;">♓ Pisces (Meen) - Yellow Sapphire</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+
+                <!-- Planet Stones -->
+                <li class="nav-item has-dropdown">
+                    <a href="#" class="nav-link-item">PLANETARY STONES</a>
+                    <div class="mega-dropdown">
+                        <div class="mega-dropdown-grid dynamic-grid">
+                            <div class="mega-column">
+                                <h4 class="mega-heading">Inner & Outer Cosmic Bodies</h4>
+                                <ul>
+                                    <li><a href="#" onclick="window.router.navigate('collection', {filter: 'planet', val: 'Sun'}); return false;">☀️ Sun (Surya) - Ruby</a></li>
+                                    <li><a href="#" onclick="window.router.navigate('collection', {filter: 'planet', val: 'Moon'}); return false;">🌙 Moon (Chandra) - Pearl</a></li>
+                                    <li><a href="#" onclick="window.router.navigate('collection', {filter: 'planet', val: 'Mars'}); return false;">☄️ Mars (Mangal) - Red Coral</a></li>
+                                    <li><a href="#" onclick="window.router.navigate('collection', {filter: 'planet', val: 'Mercury'}); return false;">☿️ Mercury (Budh) - Emerald</a></li>
+                                    <li><a href="#" onclick="window.router.navigate('collection', {filter: 'planet', val: 'Jupiter'}); return false;">♃️ Jupiter (Guru) - Yellow Sapphire</a></li>
+                                </ul>
+                            </div>
+                            <div class="mega-column">
+                                <h4 class="mega-heading">Shadow & Outer Planets</h4>
+                                <ul>
+                                    <li><a href="#" onclick="window.router.navigate('collection', {filter: 'planet', val: 'Venus'}); return false;">♀️ Venus (Shukra) - Diamond / Opal</a></li>
+                                    <li><a href="#" onclick="window.router.navigate('collection', {filter: 'planet', val: 'Saturn'}); return false;">♄️ Saturn (Shani) - Blue Sapphire</a></li>
+                                    <li><a href="#" onclick="window.router.navigate('collection', {filter: 'planet', val: 'Rahu'}); return false;">☊ Rahu (Shadow) - Hessonite</a></li>
+                                    <li><a href="#" onclick="window.router.navigate('collection', {filter: 'planet', val: 'Ketu'}); return false;">☋ Ketu (Shadow) - Cat's Eye</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+
+                <!-- Birthstones -->
+                <li class="nav-item has-dropdown">
+                    <a href="#" class="nav-link-item">BIRTHSTONES</a>
+                    <div class="mega-dropdown">
+                        <div class="mega-dropdown-grid months-grid">
+                            <div class="mega-column">
+                                <h4 class="mega-heading">Jan - Jun</h4>
+                                <ul>
+                                    <li><a href="#" onclick="window.router.navigate('collection', {filter: 'month', val: 'January'}); return false;">January - Garnet</a></li>
+                                    <li><a href="#" onclick="window.router.navigate('collection', {filter: 'month', val: 'February'}); return false;">February - Amethyst</a></li>
+                                    <li><a href="#" onclick="window.router.navigate('collection', {filter: 'month', val: 'March'}); return false;">March - Aquamarine</a></li>
+                                    <li><a href="#" onclick="window.router.navigate('collection', {filter: 'month', val: 'April'}); return false;">April - Diamond / Clear Zircon</a></li>
+                                    <li><a href="#" onclick="window.router.navigate('collection', {filter: 'month', val: 'May'}); return false;">May - Emerald</a></li>
+                                    <li><a href="#" onclick="window.router.navigate('collection', {filter: 'month', val: 'June'}); return false;">June - Pearl / Moonstone</a></li>
+                                </ul>
+                            </div>
+                            <div class="mega-column">
+                                <h4 class="mega-heading">Jul - Dec</h4>
+                                <ul>
+                                    <li><a href="#" onclick="window.router.navigate('collection', {filter: 'month', val: 'July'}); return false;">July - Ruby</a></li>
+                                    <li><a href="#" onclick="window.router.navigate('collection', {filter: 'month', val: 'August'}); return false;">August - Peridot</a></li>
+                                    <li><a href="#" onclick="window.router.navigate('collection', {filter: 'month', val: 'September'}); return false;">September - Blue Sapphire</a></li>
+                                    <li><a href="#" onclick="window.router.navigate('collection', {filter: 'month', val: 'October'}); return false;">October - Opal</a></li>
+                                    <li><a href="#" onclick="window.router.navigate('collection', {filter: 'month', val: 'November'}); return false;">November - Citrine / Yellow Topaz</a></li>
+                                    <li><a href="#" onclick="window.router.navigate('collection', {filter: 'month', val: 'December'}); return false;">December - Turquoise</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+
+                <!-- Jewellery Dropdown -->
+                <li class="nav-item has-dropdown">
+                    <a href="#" class="nav-link-item">JEWELLERY</a>
+                    <div class="mega-dropdown" style="width: 500px;">
+                        <div class="mega-dropdown-grid" style="grid-template-columns: repeat(2, 1fr); gap: 20px;">
+                            <div class="mega-column">
+                                <h4 class="mega-heading">Jewellery Types</h4>
+                                <ul>
+                                    <li><a href="#" onclick="window.router.navigate('collection', {category: 'jewelry', type: 'Ring'}); return false;">Rings (Astrological / Luxury)</a></li>
+                                    <li><a href="#" onclick="window.router.navigate('collection', {category: 'jewelry', type: 'Pendant'}); return false;">Pendants & Necklaces</a></li>
+                                    <li><a href="#" onclick="window.router.navigate('collection', {category: 'jewelry', type: 'Bracelet'}); return false;">Bracelets & Kada</a></li>
+                                </ul>
+                            </div>
+                            <div class="mega-column">
+                                <h4 class="mega-heading">Bespoke Designing</h4>
+                                <ul>
+                                    <li><a href="#" onclick="window.router.openBespokeJewelryModal(); return false;">✨ Custom Bespoke Studio</a></li>
+                                    <li><a href="#" onclick="window.router.navigate('education', {article: 'jewelry-guide'}); return false;">Buying Guide for Rings</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+
+                <!-- Engagement Rings Dropdown -->
+                <li class="nav-item has-dropdown">
+                    <a href="#" class="nav-link-item">ENGAGEMENT RINGS</a>
+                    <div class="mega-dropdown" style="width: 500px;">
+                        <div class="mega-dropdown-grid" style="grid-template-columns: repeat(2, 1fr); gap: 20px;">
+                            <div class="mega-column">
+                                <h4 class="mega-heading">Engagement Styles</h4>
+                                <ul>
+                                    <li><a href="#" onclick="window.router.navigate('collection'); return false;">Solitaire Engagement Rings</a></li>
+                                    <li><a href="#" onclick="window.router.navigate('collection'); return false;">Sapphire Engagement Rings</a></li>
+                                    <li><a href="#" onclick="window.router.navigate('collection'); return false;">Emerald Engagement Rings</a></li>
+                                </ul>
+                            </div>
+                            <div class="mega-column">
+                                <h4 class="mega-heading">Custom Fit</h4>
+                                <ul>
+                                    <li><a href="#" onclick="window.router.openBespokeJewelryModal(); return false;">✨ Build Your Own Ring</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+
+                <!-- Gem Recommendation Link -->
+                <li class="nav-item">
+                    <a href="#" class="nav-link-item astrology-highlight" onclick="window.router.navigate('recommendation'); return false;">GEM RECOMMENDATION</a>
+                </li>
+
+                <!-- Vault Dropdown -->
+                <li class="nav-item has-dropdown">
+                    <a href="#" class="nav-link-item">VAULT</a>
+                    <div class="mega-dropdown" style="width: 500px;">
+                        <div class="mega-dropdown-grid" style="grid-template-columns: repeat(2, 1fr); gap: 20px;">
+                            <div class="mega-column">
+                                <h4 class="mega-heading">High-Value Treasures</h4>
+                                <ul>
+                                    <li><a href="#" onclick="window.router.navigate('collection', {filter: 'origin', val: 'Kashmir'}); return false;">Kashmir Blue Sapphires</a></li>
+                                    <li><a href="#" onclick="window.router.navigate('collection', {filter: 'origin', val: 'Myanmar'}); return false;">Burmese Pigeon Blood Rubies</a></li>
+                                    <li><a href="#" onclick="window.router.navigate('collection', {filter: 'origin', val: 'Colombia'}); return false;">No Oil Colombian Emeralds</a></li>
+                                </ul>
+                            </div>
+                            <div class="mega-column">
+                                <h4 class="mega-heading">Elite Crystals</h4>
+                                <ul>
+                                    <li><a href="#" onclick="window.router.navigate('collection'); return false;">Super-Grade Collector Gems</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+
+                <!-- Limited Specials Link -->
+                <li class="nav-item">
+                    <a href="#" class="nav-link-item" onclick="window.router.navigate('collection'); return false;">
+                        LIMITED SPECIALS 
+                        <span class="new-badge" style="background:#ff3366; color:#ffffff; font-size:9px; font-weight:700; padding:2px 5px; border-radius:3px; margin-left:3px; position:relative; top:-2px; text-transform:uppercase;">New</span>
+                    </a>
+                </li>
+                
+                <!-- Quick Link to Dashboard for interactive mock panel -->
+                <li class="nav-item admin-nav-link">
+                    <a href="#" class="nav-link-item admin-highlight" onclick="window.router.navigate('admin'); return false;">🛡️ ADMIN PANEL</a>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- MAIN APP ROUTING VIEWPORT -->
+    <main id="app-viewport">
+        <!-- Views are dynamically rendered here via app.js -->
+        <div class="luxury-loader">
+            <div class="gold-spinner"></div>
+            <p>Gathering Celestial Energies...</p>
+        </div>
+    </main>
+
+    <!-- RIGHT DRAWERS & BOTTOM SLIDERS -->
+    
+    <!-- Cart Drawer Overlay -->
+    <div class="drawer-overlay" id="cart-drawer" role="dialog" aria-modal="true">
+        <div class="drawer-content">
+            <div class="drawer-header">
+                <h3>Your Premium Cart</h3>
+                <button class="close-btn" onclick="window.router.toggleCartTray();">&times;</button>
+            </div>
+            <div class="drawer-body" id="cart-drawer-items">
+                <!-- Cart items will be loaded dynamically -->
+            </div>
+            <div class="drawer-footer">
+                <div class="cart-totals">
+                    <span>Subtotal:</span>
+                    <strong id="cart-subtotal">$0.00</strong>
+                </div>
+                <p class="tax-info">GST Invoicing available. Multi-currency secure payment.</p>
+                <button class="checkout-btn gold-btn" onclick="window.router.navigate('checkout'); window.router.toggleCartTray();">Proceed to Secure Checkout</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Wishlist Drawer Overlay -->
+    <div class="drawer-overlay" id="wishlist-drawer" role="dialog" aria-modal="true">
+        <div class="drawer-content">
+            <div class="drawer-header">
+                <h3>Your Wishlist</h3>
+                <button class="close-btn" onclick="window.router.toggleWishlistTray();">&times;</button>
+            </div>
+            <div class="drawer-body" id="wishlist-drawer-items">
+                <!-- Wishlist items loaded dynamically -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Product Compare Drawer Tray (Anchored Bottom) -->
+    <div class="compare-tray" id="compare-tray">
+        <div class="compare-tray-header">
+            <h4>Compare Tray (<span id="compare-tray-count">0</span>/3)</h4>
+            <div class="compare-tray-actions">
+                <button class="gold-btn btn-sm" id="trigger-compare-btn" onclick="window.router.navigate('compare'); window.router.toggleCompareTray();">Compare Now</button>
+                <button class="close-btn" onclick="window.router.toggleCompareTray();">&times;</button>
+            </div>
+        </div>
+        <div class="compare-tray-items" id="compare-tray-items">
+            <!-- Dynamic comparison preview -->
+        </div>
+    </div>
+
+    <!-- INTERACTIVE MODALS -->
+
+    <!-- Consultation Modal -->
+    <div class="modal-overlay" id="consultation-modal">
+        <div class="modal-content glassmorphism">
+            <button class="close-modal-btn" onclick="window.router.closeConsultationModal();">&times;</button>
+            <h3>Schedule Astro-Gemstone Consultation</h3>
+            <p class="subtitle">Discuss your natal chart (Kundli) with our certified Vedic Astrologers to find the perfect stone.</p>
+            <form id="consultation-form" onsubmit="event.preventDefault(); window.router.submitConsultation(this);">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="c-name">Full Name</label>
+                        <input type="text" id="c-name" required placeholder="E.g. Siddharth Sharma">
+                    </div>
+                    <div class="form-group">
+                        <label for="c-phone">Phone / WhatsApp</label>
+                        <input type="tel" id="c-phone" required placeholder="E.g. +91 9876543210">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="c-dob">Date of Birth</label>
+                        <input type="date" id="c-dob" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="c-tob">Time of Birth</label>
+                        <input type="time" id="c-tob" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="c-pob">Place of Birth</label>
+                    <input type="text" id="c-pob" required placeholder="City, Country">
+                </div>
+                <div class="form-group">
+                    <label for="c-notes">Specific Life Concern (Optional)</label>
+                    <textarea id="c-notes" rows="3" placeholder="Health, Career, Financial Stability, Marriage..."></textarea>
+                </div>
+                <button type="submit" class="gold-btn">Secure Live Astrological Consultation</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Product Inquiry Modal -->
+    <div class="modal-overlay" id="inquiry-modal">
+        <div class="modal-content glassmorphism">
+            <button class="close-modal-btn" onclick="window.router.closeInquiryModal();">&times;</button>
+            <h3>Product Inquiry</h3>
+            <p class="subtitle">Request details, offline discount offers, or customized certificates for item: <strong id="inquiry-product-name">Gemstone</strong></p>
+            <form id="inquiry-form" onsubmit="event.preventDefault(); window.router.submitInquiry(this);">
+                <input type="hidden" id="inquiry-sku">
+                <div class="form-group">
+                    <label for="inq-name">Your Name</label>
+                    <input type="text" id="inq-name" required placeholder="Full Name">
+                </div>
+                <div class="form-group">
+                    <label for="inq-email">Email Address</label>
+                    <input type="email" id="inq-email" required placeholder="name@domain.com">
+                </div>
+                <div class="form-group">
+                    <label for="inq-whatsapp">WhatsApp Contact</label>
+                    <input type="tel" id="inq-whatsapp" required placeholder="+91 99999 99999">
+                </div>
+                <div class="form-group">
+                    <label for="inq-msg">Specific Questions or Customization Request</label>
+                    <textarea id="inq-msg" rows="3" placeholder="I would like to set this ruby in a 22k yellow gold ring with extra side diamonds..."></textarea>
+                </div>
+                <button type="submit" class="gold-btn">Submit Luxury Concierge Inquiry</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Certification Verification Modal -->
+    <div class="modal-overlay" id="cert-verify-modal">
+        <div class="modal-content glassmorphism">
+            <button class="close-modal-btn" onclick="window.router.closeCertVerifyModal();">&times;</button>
+            <h3>Verify Certificate Authenticity</h3>
+            <p class="subtitle">Enter your Gem Lab certificate ID to check matching laboratory database records.</p>
+            <form id="cert-form" onsubmit="event.preventDefault(); window.router.verifyCertificate(this);">
+                <div class="form-group">
+                    <label for="cert-lab">Select Issuing Gem Lab</label>
+                    <select id="cert-lab" required>
+                        <option value="GIA">GIA (Gemological Institute of America)</option>
+                        <option value="IGI">IGI (International Gemological Institute)</option>
+                        <option value="GRT">GRT (Gem Testing Laboratory, Jaipur)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="cert-id">Certificate ID / Report Number</label>
+                    <input type="text" id="cert-id" required placeholder="E.g. GIA-98317765" style="text-transform: uppercase;">
+                </div>
+                <button type="submit" class="gold-btn">Verify Lab Report</button>
+            </form>
+            <div id="cert-verify-result" class="cert-result-container"></div>
+        </div>
+    </div>
+
+    <!-- Bespoke Custom Jewelry Design Studio Modal -->
+    <div class="modal-overlay" id="bespoke-modal">
+        <div class="modal-content glassmorphism bespoke-studio-content">
+            <button class="close-modal-btn" onclick="window.router.closeBespokeJewelryModal();">&times;</button>
+            <h3>bespoke Jewellery Design Studio</h3>
+            <p class="subtitle">Design your own customized astrological jewelry in three simple steps.</p>
+            
+            <div class="bespoke-steps">
+                <div class="step-indicator active" id="b-step-1">1. Select Base Stone</div>
+                <div class="step-indicator" id="b-step-2">2. Choose Metal & Setting</div>
+                <div class="step-indicator" id="b-step-3">3. Final Custom Specs</div>
+            </div>
+
+            <form id="bespoke-form" onsubmit="event.preventDefault(); window.router.submitBespokeDesign(this);">
+                <!-- Step 1: Gemstone Selection -->
+                <div class="bespoke-pane active" id="pane-1">
+                    <label>Choose Center Natural Gemstone</label>
+                    <select id="bespoke-stone" required>
+                        <option value="Blue Sapphire">Blue Sapphire (Neelam)</option>
+                        <option value="Ruby">Ruby (Manik)</option>
+                        <option value="Emerald">Emerald (Panna)</option>
+                        <option value="Yellow Sapphire">Yellow Sapphire (Pukhraj)</option>
+                        <option value="Hessonite">Hessonite (Gomed)</option>
+                        <option value="Pearl">Pearl (Moti)</option>
+                    </select>
+                    <label>Estimated Weight (Carats)</label>
+                    <input type="number" id="bespoke-carats" min="1" max="15" step="0.1" value="4.5">
+                    <button type="button" class="gold-btn next-btn" onclick="window.router.goToBespokeStep(2);">Proceed to Setting</button>
+                </div>
+
+                <!-- Step 2: Metal & Setting -->
+                <div class="bespoke-pane" id="pane-2">
+                    <label>Setting Style</label>
+                    <div class="options-grid">
+                        <label class="radio-option">
+                            <input type="radio" name="bespoke-style" value="Classic Astrological Ring" checked>
+                            <span>Classic Ring (Panchdhatu / Gold)</span>
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="bespoke-style" value="Luxury Halo Diamond Ring">
+                            <span>Luxury Halo Ring</span>
+                        </label>
+                        <label class="radio-option">
+                            <input type="radio" name="bespoke-style" value="Cosmic Energy Pendant">
+                            <span>Pendant (Prism Prong)</span>
+                        </label>
+                    </div>
+                    <label>Base Metal</label>
+                    <select id="bespoke-metal" required>
+                        <option value="18k Yellow Gold">18k Yellow Gold</option>
+                        <option value="22k Yellow Gold">22k Yellow Gold</option>
+                        <option value="14k White Gold">14k White Gold</option>
+                        <option value="Panchdhatu (Five-Metal Alloy)">Panchdhatu (Five-Metal Alloy)</option>
+                        <option value="925 Sterling Silver">925 Sterling Silver</option>
+                    </select>
+                    <div class="btn-group">
+                        <button type="button" class="btn-secondary" onclick="window.router.goToBespokeStep(1);">Back</button>
+                        <button type="button" class="gold-btn next-btn" onclick="window.router.goToBespokeStep(3);">Proceed to Custom Details</button>
+                    </div>
+                </div>
+
+                <!-- Step 3: Sizing & Customization Details -->
+                <div class="bespoke-pane" id="pane-3">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="bespoke-ring-size">Ring / Wrist Size (Standard US / Indian)</label>
+                            <input type="text" id="bespoke-ring-size" placeholder="E.g., US 8 / 16mm" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="bespoke-astrology-instructions">Backside Opening? (For Astrological touch to skin)</label>
+                            <select id="bespoke-back-open">
+                                <option value="Yes" selected>Yes, bottom should touch skin (Recommended)</option>
+                                <option value="No">No, keep back sealed (Normal jewelry)</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="bespoke-notes">Describe Customization Request</label>
+                        <textarea id="bespoke-notes" rows="3" placeholder="Any engraving, floral carvings, extra micro diamonds..."></textarea>
+                    </div>
+                    <div class="btn-group">
+                        <button type="button" class="btn-secondary" onclick="window.router.goToBespokeStep(2);">Back</button>
+                        <button type="submit" class="gold-btn">Submit Custom Studio Order Request</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Live Chat Mock Widget -->
+    <div class="chat-widget" id="chat-widget">
+        <button class="chat-toggle" onclick="window.router.toggleChat();">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+            <span class="chat-pulse"></span>
+        </button>
+        <div class="chat-window glassmorphism" id="chat-window">
+            <div class="chat-header">
+                <div class="chat-avatar">✨</div>
+                <div class="chat-meta">
+                    <h4>Celestial Concierge</h4>
+                    <span>Online | Astrologist Assistant</span>
+                </div>
+                <button class="close-btn" onclick="window.router.toggleChat();">&times;</button>
+            </div>
+            <div class="chat-messages" id="chat-messages">
+                <div class="msg bot-msg">
+                    <p>Namaste! I am your Celestial Advisor. Are you seeking a gemstone for planetary alignment, career expansion, or general healing? Let me guide you.</p>
+                </div>
+            </div>
+            <div class="chat-input-container">
+                <input type="text" id="chat-input-field" placeholder="Ask about Gemstones, Mantras, or Planets..." onkeydown="if(event.key==='Enter') window.router.sendChatMessage();">
+                <button onclick="window.router.sendChatMessage();">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER WITH REPLICATED SITEMAP & TRUST BADGES -->
+    <footer class="luxury-footer">
+        <!-- Trust Badges Section -->
+        <div class="footer-trust-badges">
+            <div class="badge">
+                <div class="badge-icon">🛡️</div>
+                <h5>100% Secure Payment</h5>
+                <p>SSL Encryption & PCI Compliance</p>
+            </div>
+            <div class="badge">
+                <div class="badge-icon">🔬</div>
+                <h5>Govt. Registered Labs</h5>
+                <p>Authentic Certificates with Every Stone</p>
+            </div>
+            <div class="badge">
+                <div class="badge-icon">🔄</div>
+                <h5>10-Day Returns</h5>
+                <p>No-questions-asked refund policy</p>
+            </div>
+            <div class="badge">
+                <div class="badge-icon">🗣️</div>
+                <h5>Free Expert Advice</h5>
+                <p>Consultations with Vedic Astrologers</p>
+            </div>
+        </div>
+
+        <!-- Footer Sitemap Grid (5-Column GemPundit Replicated Structure) -->
+        <div class="footer-grid" style="grid-template-columns: 1.5fr 1fr 1fr 1fr 1fr; gap: 30px;">
+            <!-- Brand and Social Column -->
+            <div class="footer-col brand-col">
+                <h4>JAIPUR RASHI GEMS</h4>
+                <p class="brand-desc">Hand-selecting certified unheated potent crystals direct from the mines of Ceylon, Burma, and Kashmir. Crafting customized astrological rings and cosmic guardians for planetary prosperity since 1989.</p>
+                <div class="newsletter-sub">
+                    <h5>Subscribe to Luxury Astrological Journal</h5>
+                    <form onsubmit="event.preventDefault(); alert('Subscribed to Lunar Journal.'); this.reset();">
+                        <input type="email" placeholder="Your Luxury Email" required style="border-radius:4px 0 0 4px; padding:10px;">
+                        <button type="submit">Subscribe</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Shop Gemstones Column -->
+            <div class="footer-col">
+                <h4>Shop Gemstones</h4>
+                <ul class="footer-links">
+                    <li><a href="#" onclick="window.router.navigate('collection', {gemstone: 'Blue Sapphire'}); return false;">Blue Sapphire (Neelam)</a></li>
+                    <li><a href="#" onclick="window.router.navigate('collection', {gemstone: 'Ruby'}); return false;">Ruby (Manik)</a></li>
+                    <li><a href="#" onclick="window.router.navigate('collection', {gemstone: 'Emerald'}); return false;">Emerald (Panna)</a></li>
+                    <li><a href="#" onclick="window.router.navigate('collection', {gemstone: 'Yellow Sapphire'}); return false;">Yellow Sapphire (Pukhraj)</a></li>
+                    <li><a href="#" onclick="window.router.navigate('collection', {gemstone: 'Hessonite'}); return false;">Hessonite (Gomed)</a></li>
+                    <li><a href="#" onclick="window.router.navigate('collection', {gemstone: 'Cats Eye'}); return false;">Cat's Eye (Lehsuniya)</a></li>
+                    <li><a href="#" onclick="window.router.navigate('collection', {gemstone: 'Pearl'}); return false;">Pearl (Moti)</a></li>
+                </ul>
+            </div>
+
+            <!-- Astrology & Planets Column -->
+            <div class="footer-col">
+                <h4>Astro Alignment</h4>
+                <ul class="footer-links">
+                    <li><a href="#" onclick="window.router.navigate('collection', {filter: 'zodiac', val: 'Aries'}); return false;">♈ Aries (Mesh) Gems</a></li>
+                    <li><a href="#" onclick="window.router.navigate('collection', {filter: 'zodiac', val: 'Leo'}); return false;">♌ Leo (Simha) Gems</a></li>
+                    <li><a href="#" onclick="window.router.navigate('collection', {filter: 'zodiac', val: 'Cancer'}); return false;">♋ Cancer (Kark) Gems</a></li>
+                    <li><a href="#" onclick="window.router.navigate('collection', {filter: 'zodiac', val: 'Capricorn'}); return false;">♑ Capricorn (Makar) Gems</a></li>
+                    <li><a href="#" onclick="window.router.navigate('recommendation'); return false;">🌌 Dynamic Gemstone Finder</a></li>
+                    <li><a href="#" onclick="window.router.openConsultationModal(); return false;">📅 Schedule Kundli Review</a></li>
+                </ul>
+            </div>
+
+            <!-- Fine Jewellery Column -->
+            <div class="footer-col">
+                <h4>Fine Jewellery</h4>
+                <ul class="footer-links">
+                    <li><a href="#" onclick="window.router.navigate('collection', {category: 'jewelry', type: 'Ring'}); return false;">Astrological Rings</a></li>
+                    <li><a href="#" onclick="window.router.navigate('collection', {category: 'jewelry', type: 'Pendant'}); return false;">Planetary Pendants</a></li>
+                    <li><a href="#" onclick="window.router.navigate('collection', {category: 'jewelry', type: 'Bracelet'}); return false;">Energy Bracelets</a></li>
+                    <li><a href="#" onclick="window.router.openBespokeJewelryModal(); return false;">✨ Bespoke Studio</a></li>
+                    <li><a href="#" onclick="window.router.navigate('collection'); return false;">Engagement Rings</a></li>
+                </ul>
+            </div>
+
+            <!-- Customer Care & Policies Column -->
+            <div class="footer-col">
+                <h4>Customer Support</h4>
+                <ul class="footer-links">
+                    <li><a href="#" onclick="window.router.openCertVerifyModal(); return false;">Verify Certifications</a></li>
+                    <li><a href="#" onclick="window.router.navigate('education', {article: 'care-and-cleaning'}); return false;">Cleaning & Care Guide</a></li>
+                    <li><a href="#" onclick="window.router.navigate('faq'); return false;">FAQs & Astrological Rules</a></li>
+                    <li><a href="#" onclick="window.router.navigate('about'); return false;">Our Legacy & Mines</a></li>
+                    <li><a href="#" onclick="window.router.navigate('contact'); return false;">Contact Luxury Concierge</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; 2026 Jaipur Rashi Gems. All rights reserved. Handcrafted luxury from Jaipur, Rajasthan. Sourced worldwide.</p>
+            <div class="payments-supported">
+                <span>💳 Visa / Mastercard</span>
+                <span>💎 Stripe</span>
+                <span>💰 Razorpay</span>
+                <span>🏛️ Bank Wire Transfer</span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Modular Script Layers -->
+    <script src="seo.js"></script>
+    <script src="admin.js"></script>
+    <script src="three-engine.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
