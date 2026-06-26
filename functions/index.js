@@ -52,7 +52,7 @@ async function getPayPalAccessToken() {
 
 // GET /api/config
 // Exposes public environment variables to the frontend client
-app.get('/config', (req, res) => {
+app.get('/api/config', (req, res) => {
   res.json({
     paypalClientId: process.env.PAYPAL_CLIENT_ID || '',
     stripePublishableKey: process.env.STRIPE_PUBLISHABLE_KEY || '',
@@ -62,7 +62,7 @@ app.get('/config', (req, res) => {
 
 // POST /api/create-paypal-order
 // Contacts PayPal V2 API to register an authorized transaction request
-app.post('/create-paypal-order', async (req, res) => {
+app.post('/api/create-paypal-order', async (req, res) => {
   try {
     const { total } = req.body;
     if (!total || isNaN(total)) {
@@ -108,7 +108,7 @@ app.post('/create-paypal-order', async (req, res) => {
 
 // POST /api/capture-paypal-order
 // Captures and locks authorization keys for the PayPal transaction on the backend
-app.post('/capture-paypal-order', async (req, res) => {
+app.post('/api/capture-paypal-order', async (req, res) => {
   try {
     const { orderId } = req.body;
     if (!orderId) {
@@ -144,7 +144,7 @@ app.post('/capture-paypal-order', async (req, res) => {
 
 // POST /api/create-payment-intent
 // Generates a Stripe client secret token for standard frontend elements flow
-app.post('/create-payment-intent', async (req, res) => {
+app.post('/api/create-payment-intent', async (req, res) => {
   try {
     const { total } = req.body;
     if (!total || isNaN(total)) {
@@ -178,7 +178,7 @@ app.post('/create-payment-intent', async (req, res) => {
 
 // POST /api/create-stripe-session
 // Generates a Stripe Checkout Session redirect link
-app.post('/create-stripe-session', async (req, res) => {
+app.post('/api/create-stripe-session', async (req, res) => {
   try {
     const { total } = req.body;
     if (!total || isNaN(total)) {
@@ -225,3 +225,11 @@ app.use((req, res) => {
 
 // Export Express app as Firebase Function
 exports.api = functions.https.onRequest(app);
+
+// Start standard Express listening server if running directly (like on Render)
+if (require.main === module || process.env.PORT) {
+  const PORT = process.env.PORT || 3000;
+  app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+  });
+}
