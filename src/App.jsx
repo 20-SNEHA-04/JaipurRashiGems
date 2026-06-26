@@ -67,6 +67,10 @@ export default function App() {
     setCart(prev => prev.map(item => item.id === id ? { ...item, qty: newQty } : item));
   };
 
+  const clearCart = () => {
+    setCart([]);
+  };
+
   // Wishlist operations
   const addToWishlist = (product) => {
     setWishlist(prev => {
@@ -322,7 +326,7 @@ export default function App() {
                 <span className="text-gray">Subtotal:</span>
                 <span className="text-gold text-lg font-serif">{getCartTotal()}</span>
               </div>
-              <button onClick={() => alert('Order Placed! Thank you for choosing Jaipur Rashi Gems.')} className="w-full gold-btn flex justify-center items-center gap-2">Secure Checkout <Star size={14} /></button>
+              <button onClick={() => { navigateTo('/checkout'); setIsCartOpen(false); }} className="w-full gold-btn flex justify-center items-center gap-2">Secure Checkout <Star size={14} /></button>
             </div>
           )}
         </div>
@@ -339,6 +343,7 @@ export default function App() {
         currency={currency}
         setCurrency={setCurrency}
         exchangeRate={CURRENCIES}
+        clearCart={clearCart}
       />
 
       {/* 8. MOBILE FLOATING FOOTER */}

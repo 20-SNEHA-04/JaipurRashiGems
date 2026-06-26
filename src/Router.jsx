@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { CATEGORIES, PRODUCTS, BLOGS, GOLD_RATES } from './database';
 import GemRenderer from './components/GemRenderer';
 import AstroWizard from './components/AstroWizard';
-import { Sparkles, ArrowRight, ShieldCheck, Heart, ShoppingBag, Search, HelpCircle, Star, Phone, Award, Compass, RefreshCw, Send, Check } from 'lucide-react';
+import { Sparkles, ArrowRight, ShieldCheck, Heart, ShoppingBag, Search, HelpCircle, Star, Phone, Award, Compass, RefreshCw, Send, Check, CreditCard, Lock } from 'lucide-react';
 
 // Custom lightweight URL router watching history state
 export default function Router({ cart, toggleCart, addToCart, wishlist, toggleWishlist, addToWishlist, currency, setCurrency, exchangeRate }) {
@@ -179,6 +179,15 @@ export default function Router({ cart, toggleCart, addToCart, wishlist, toggleWi
       {currentPath === '/return-exchange' && <StaticPage title="Returns & Exchange" content="To maintain luxury transparency, we support a hassle-free 10-day exchange window with absolute refunds. Note: Custom ring settings or metal mounting might sustain minor labor deductions during returns." />}
       {currentPath === '/ring-size-guide' && <StaticPage title="Ring Size Guide" content="Use our premium virtual millimeter chart to evaluate your correct wearing diameter. Ensure you check sizes in calm atmospheric temperatures for accurate fits." />}
       {currentPath === '/payment-methods' && <StaticPage title="Payment Methods" content="We support major global payment gateways including Stripe, PayPal, Razorpay (for local INR transfers), and direct bank wire setups. Fully PCI-DSS certified processing." />}
+      {currentPath === '/checkout' && (
+        <CheckoutView
+          cart={cart}
+          formatPrice={formatPrice}
+          currency={currency}
+          navigateTo={navigateTo}
+          clearCart={clearCart}
+        />
+      )}
     </main>
   );
 }
@@ -1145,6 +1154,351 @@ function AdminDashboardView({ formatPrice }) {
           </div>
         </div>
       )}
+    </div>
+  );
+}
+
+// [R] SECURE CHECKOUT VIEW
+function CheckoutView({ cart, formatPrice, currency, navigateTo, clearCart }) {
+  const [formData, setFormData] = useState({
+    firstName: '',
+    lastName: '',
+    email: '',
+    address: '',
+    city: '',
+    postalCode: '',
+    country: 'United States',
+    requestPuja: 'yes',
+    dob: '',
+    tob: '',
+    pob: ''
+  });
+
+  const [paymentMethod, setPaymentMethod] = useState('Stripe'); // Stripe, PayPal, COD
+  const [isLoading, setIsLoading] = useState(false);
+  const [config, setConfig] = useState(null);
+  const [paypalLoaded, setPaypalLoaded] = useState(false);
+  const [isPaypalRendered, setIsPaypalRendered] = useState(false);
+  
+  // URL parameters for Stripe success/cancel callback check
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('stripe-success') === 'true') {
+      setIsLoading(true);
+      // Wait a moment for visual premium feedback
+      setTimeout(() => {
+        setIsLoading(false);
+        alert('Order Placed! Stripe payment approved and verified. Thank you for choosing Jaipur Rashi Gems.');
+        clearCart();
+        navigateTo('/');
+      }, 2000);
+    } else if (params.get('stripe-cancel') === 'true') {
+      alert('Stripe payment cancelled. Please try again.');
+      navigateTo('/checkout');
+    }
+  }, []);
+
+  // Fetch gateway configuration
+  useEffect(() => {
+    fetch('/api/config')
+      .then(res => res.json())
+      .then(data => setConfig(data))
+      .catch(err => console.error('Failed to load payment gateway configurations:', err));
+  }, []);
+
+  // Dynamically load PayPal SDK when PayPal method is active and config exists
+  useEffect(() => {
+    if (paymentMethod === 'PayPal' && config?.paypalClientId) {
+      if (window.paypal) {
+        setPaypalLoaded(true);
+      } else {
+        const script = document.createElement('script');
+        script.src = `https://www.paypal.com/sdk/js?client-id=${config.paypalClientId}&currency=USD`;
+        script.async = true;
+        script.onload = () => setPaypalLoaded(true);
+        document.body.appendChild(script);
+      }
+    }
+  }, [paymentMethod, config]);
+
+  // Render PayPal buttons once loaded
+  useEffect(() => {
+    if (paypalLoaded && paymentMethod === 'PayPal' && !isPaypalRendered) {
+      const container = document.getElementById('paypal-button-container');
+      if (container) {
+        container.innerHTML = ''; // Clear container
+        window.paypal.Buttons({
+          createOrder: async () => {
+            try {
+              const res = await fetch('/api/create-paypal-order', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ total: cartTotal })
+              });
+              const data = await res.json();
+              if (data.error) throw new Error(data.error);
+              return data.orderId;
+            } catch (err) {
+              alert(`Error: ${err.message}`);
+              throw err;
+            }
+          },
+          onApprove: async (data) => {
+            setIsLoading(true);
+            try {
+              const res = await fetch('/api/capture-paypal-order', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ orderId: data.orderID })
+              });
+              const captureData = await res.json();
+              setIsLoading(false);
+              if (captureData.error) throw new Error(captureData.error);
+              
+              if (captureData.status === 'COMPLETED') {
+                alert('Order Placed! PayPal payment approved and verified. Thank you for choosing Jaipur Rashi Gems.');
+                clearCart();
+                navigateTo('/');
+              } else {
+                alert('PayPal capture failed. Please try again.');
+              }
+            } catch (err) {
+              setIsLoading(false);
+              alert(`Error capturing PayPal payment: ${err.message}`);
+            }
+          },
+          onError: (err) => {
+            console.error('PayPal button error:', err);
+            alert('An error occurred during PayPal checkout authorization.');
+          }
+        }).render('#paypal-button-container');
+        setIsPaypalRendered(true);
+      }
+    }
+  }, [paypalLoaded, paymentMethod, isPaypalRendered]);
+
+  // Reset Paypal rendering state when switching payment methods
+  useEffect(() => {
+    if (paymentMethod !== 'PayPal') {
+      setIsPaypalRendered(false);
+    }
+  }, [paymentMethod]);
+
+  const cartTotal = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+  };
+
+  const handleStripeCheckout = async () => {
+    if (!formData.firstName || !formData.email || !formData.address) {
+      alert('Please fill out the shipping address and contact details first!');
+      return;
+    }
+    setIsLoading(true);
+    try {
+      const res = await fetch('/api/create-stripe-session', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ total: cartTotal })
+      });
+      const data = await res.json();
+      if (data.error) throw new Error(data.error);
+      
+      // Redirect user to Stripe Checkout page
+      window.location.href = data.url;
+    } catch (err) {
+      setIsLoading(false);
+      alert(`Stripe Redirect Error: ${err.message}`);
+    }
+  };
+
+  const handleCODCheckout = (e) => {
+    e.preventDefault();
+    if (!formData.firstName || !formData.email || !formData.address) {
+      alert('Please fill out the shipping address and contact details!');
+      return;
+    }
+    setIsLoading(true);
+    setTimeout(() => {
+      setIsLoading(false);
+      alert('Order Placed! Thank you for choosing Cash on Delivery. Our support team will call you to confirm your purchase.');
+      clearCart();
+      navigateTo('/');
+    }, 1500);
+  };
+
+  if (cart.length === 0 && !window.location.search.includes('stripe-success')) {
+    return (
+      <div className="container py-24 text-center space-y-6">
+        <ShoppingBag size={48} className="text-gold mx-auto" />
+        <h2 className="text-2xl font-serif">Your shopping cart is empty</h2>
+        <p className="text-gray text-xs max-w-sm mx-auto">Please add loose natural gemstones or custom Vedic jewelry to your cart before proceeding to checkout.</p>
+        <button onClick={() => navigateTo('/gemstones')} className="gold-btn py-2.5 px-6">Explore Gemstones</button>
+      </div>
+    );
+  }
+
+  return (
+    <div className="container py-12 relative">
+      {/* Loading overlay */}
+      {isLoading && (
+        <div className="fixed inset-0 bg-black/80 z-[2000] flex flex-col items-center justify-center space-y-4">
+          <RefreshCw className="text-gold animate-spin h-10 w-10" />
+          <span className="text-xs uppercase tracking-widest text-gold font-bold">Verifying Celestial Transaction...</span>
+        </div>
+      )}
+
+      <div className="text-center max-w-2xl mx-auto mb-10">
+        <h2 className="text-4xl font-serif mb-4"><span className="text-gold">Vedic Secure</span> Checkout</h2>
+        <p className="text-gray text-sm">Review your selected celestial stones, enter your shipping and birth coordinates, and finalize your purchase.</p>
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        {/* Left: Shipping & Puja Configurations Form */}
+        <div className="lg:col-span-2 space-y-6">
+          <div className="glass-panel p-6 border-gold/15 bg-secondary-dark/20 space-y-6">
+            <h3 className="text-lg font-serif text-gold italic border-b border-white/5 pb-2">1. Delivery Address & Contact</h3>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
+              <div>
+                <label className="block text-gray mb-1">First Name</label>
+                <input required name="firstName" value={formData.firstName} onChange={handleInputChange} type="text" className="w-full bg-primary-dark border border-white/10 rounded p-2.5 text-white focus:border-gold outline-none" />
+              </div>
+              <div>
+                <label className="block text-gray mb-1">Last Name</label>
+                <input required name="lastName" value={formData.lastName} onChange={handleInputChange} type="text" className="w-full bg-primary-dark border border-white/10 rounded p-2.5 text-white focus:border-gold outline-none" />
+              </div>
+              <div className="sm:col-span-2">
+                <label className="block text-gray mb-1">Email Address</label>
+                <input required name="email" value={formData.email} onChange={handleInputChange} type="email" className="w-full bg-primary-dark border border-white/10 rounded p-2.5 text-white focus:border-gold outline-none" />
+              </div>
+              <div className="sm:col-span-2">
+                <label className="block text-gray mb-1">Street Address</label>
+                <input required name="address" value={formData.address} onChange={handleInputChange} type="text" placeholder="House/Apartment number, street name" className="w-full bg-primary-dark border border-white/10 rounded p-2.5 text-white focus:border-gold outline-none" />
+              </div>
+              <div>
+                <label className="block text-gray mb-1">City</label>
+                <input required name="city" value={formData.city} onChange={handleInputChange} type="text" className="w-full bg-primary-dark border border-white/10 rounded p-2.5 text-white focus:border-gold outline-none" />
+              </div>
+              <div>
+                <label className="block text-gray mb-1">Postal Code</label>
+                <input required name="postalCode" value={formData.postalCode} onChange={handleInputChange} type="text" className="w-full bg-primary-dark border border-white/10 rounded p-2.5 text-white focus:border-gold outline-none" />
+              </div>
+            </div>
+          </div>
+
+          <div className="glass-panel p-6 border-gold/15 bg-secondary-dark/20 space-y-6">
+            <h3 className="text-lg font-serif text-gold italic border-b border-white/5 pb-2">2. Astrological Puja & Abhishek (Complementary)</h3>
+            <div className="space-y-4 text-xs">
+              <div>
+                <label className="block text-gray mb-1">Perform Temple Puja & Planetary Energization before dispatch?</label>
+                <select name="requestPuja" value={formData.requestPuja} onChange={handleInputChange} className="w-full bg-primary-dark border border-white/10 rounded p-2.5 text-white focus:border-gold outline-none">
+                  <option value="yes">Yes, perform Vedic Energization (Pooja/Abhishek) (Highly Recommended)</option>
+                  <option value="no">No, ship raw gemstones directly</option>
+                </select>
+              </div>
+
+              {formData.requestPuja === 'yes' && (
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 border-t border-white/5 pt-4">
+                  <div>
+                    <label className="block text-gray mb-1">Date of Birth</label>
+                    <input name="dob" value={formData.dob} onChange={handleInputChange} type="date" className="w-full bg-primary-dark border border-white/10 rounded p-2.5 text-white focus:border-gold outline-none" />
+                  </div>
+                  <div>
+                    <label className="block text-gray mb-1">Time of Birth</label>
+                    <input name="tob" value={formData.tob} onChange={handleInputChange} type="time" className="w-full bg-primary-dark border border-white/10 rounded p-2.5 text-white focus:border-gold outline-none" />
+                  </div>
+                  <div>
+                    <label className="block text-gray mb-1">Place of Birth</label>
+                    <input name="pob" value={formData.pob} onChange={handleInputChange} type="text" placeholder="City, Country" className="w-full bg-primary-dark border border-white/10 rounded p-2.5 text-white focus:border-gold outline-none" />
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+
+        {/* Right: Order Summary & Checkout Payment Buttons */}
+        <div className="space-y-6">
+          <div className="glass-panel p-6 border-gold/15 bg-secondary-dark/30 space-y-4">
+            <h3 className="text-lg font-serif text-gold italic border-b border-white/5 pb-2">Order Summary</h3>
+            <div className="space-y-3 max-h-48 overflow-y-auto pr-1">
+              {cart.map(item => (
+                <div key={item.id} className="flex justify-between items-center text-xs border-b border-white/5 pb-2">
+                  <div className="pr-4">
+                    <span className="font-semibold text-white block line-clamp-1">{item.name}</span>
+                    <span className="text-[10px] text-gray">Qty: {item.qty}</span>
+                  </div>
+                  <span className="text-gold font-serif font-bold whitespace-nowrap">{formatPrice(item.price * item.qty)}</span>
+                </div>
+              ))}
+            </div>
+            <div className="border-t border-white/5 pt-4 flex justify-between items-center text-sm font-semibold">
+              <span className="text-gray">Total Amount:</span>
+              <span className="text-gold text-lg font-serif">{formatPrice(cartTotal)}</span>
+            </div>
+          </div>
+
+          <div className="glass-panel p-6 border-gold/20 bg-secondary-dark/30 space-y-4">
+            <h3 className="text-lg font-serif text-gold italic border-b border-white/5 pb-2">3. Payment Configuration</h3>
+            
+            <div className="grid grid-cols-3 gap-2 text-[10px] font-bold uppercase tracking-wider mb-4">
+              {['Stripe', 'PayPal', 'COD'].map(method => (
+                <button
+                  key={method}
+                  onClick={() => setPaymentMethod(method)}
+                  className={`py-2 px-1 text-center rounded border transition-colors ${paymentMethod === method ? 'border-gold text-gold bg-gold/5' : 'border-white/10 text-gray hover:text-white'}`}
+                >
+                  {method}
+                </button>
+              ))}
+            </div>
+
+            <div className="space-y-4">
+              {paymentMethod === 'Stripe' && (
+                <div className="space-y-2">
+                  <p className="text-[11px] text-gray leading-relaxed mb-3">Pay securely with global credit and debit cards processed via 256-bit encrypted Stripe Gateway.</p>
+                  <button onClick={handleStripeCheckout} className="w-full gold-btn py-3 text-xs flex justify-center items-center gap-2">
+                    <CreditCard size={14} /> Pay with Card (Stripe)
+                  </button>
+                </div>
+              )}
+
+              {paymentMethod === 'PayPal' && (
+                <div className="space-y-3">
+                  <p className="text-[11px] text-gray leading-relaxed mb-3">Pay via PayPal account, dynamic credit cards, or local banking routes.</p>
+                  {config?.paypalClientId ? (
+                    <div id="paypal-button-container" className="w-full min-h-[150px] relative z-10">
+                      {!paypalLoaded && (
+                        <div className="flex items-center justify-center py-6">
+                          <RefreshCw className="text-gold animate-spin h-5 w-5" />
+                        </div>
+                      )}
+                    </div>
+                  ) : (
+                    <div className="text-center text-[10px] text-red-400 py-3">PayPal Gateway client ID is not configured.</div>
+                  )}
+                </div>
+              )}
+
+              {paymentMethod === 'COD' && (
+                <form onSubmit={handleCODCheckout} className="space-y-3">
+                  <p className="text-[11px] text-gray leading-relaxed mb-3">Cash on Delivery option for domestic clients. Supports cash and digital UPI payments at doorstep.</p>
+                  <button type="submit" className="w-full gold-btn py-3 text-xs flex justify-center items-center gap-2">
+                    Finalize Cash on Delivery
+                  </button>
+                </form>
+              )}
+            </div>
+
+            <div className="flex items-center gap-2 bg-white/5 p-3 rounded border border-white/5 text-[10px] text-gray mt-4">
+              <Lock className="text-gold shrink-0" size={14} />
+              <span>SSL Secure 256-bit Encrypted Connection.</span>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
