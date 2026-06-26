@@ -1,9 +1,5 @@
-const functions = require('firebase-functions');
-const admin = require('firebase-admin');
 const express = require('express');
 const cors = require('cors');
-
-admin.initializeApp();
 
 const app = express();
 
@@ -15,6 +11,19 @@ app.use(express.json());
 let stripe = null;
 if (process.env.STRIPE_SECRET_KEY) {
   stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
+}
+
+// Load Firebase SDKs conditionally (only when running inside Firebase hosting/functions environment)
+if (process.env.FIREBASE_CONFIG || process.env.FUNCTIONS_EMULATOR || process.env.FIREBASE_PROJECT) {
+  try {
+    const functions = require('firebase-functions');
+    const admin = require('firebase-admin');
+    admin.initializeApp();
+    // Export Express app as Firebase Function
+    exports.api = functions.https.onRequest(app);
+  } catch (error) {
+    console.warn('Failed to initialize Firebase Admin/Functions SDK:', error.message);
+  }
 }
 
 // Helper to authenticate and get PayPal Access Token using client credentials flow
@@ -218,18 +227,10 @@ app.post('/api/create-stripe-session', async (req, res) => {
   }
 });
 
-// Health Check Endpoint for Render / hosting environments
-app.get('/api/health', (req, res) => {
-  res.json({ status: 'ok' });
-});
-
 // Route catch-all mapping to 404
 app.use((req, res) => {
   res.status(404).json({ error: 'Endpoint not found in Jaipur Rashi Gems secure api gateway.' });
 });
-
-// Export Express app as Firebase Function
-exports.api = functions.https.onRequest(app);
 
 // Start standard Express listening server if running directly (like on Render)
 if (require.main === module || process.env.PORT) {
