@@ -5,9 +5,10 @@
     "build": "echo 'No build step required for Express backend'",
     "serve": "firebase emulators:start --only functions",
     "shell": "firebase functions:shell",
-    "start": "node index.js",
+    "start": "node server.js",
     "deploy": "firebase deploy --only functions"
   },
+  "main": "server.js",
   "engines": {
     "node": "18"
   },
